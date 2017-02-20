@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>The Psychic Game</title>
+</head>
+
+<body>
+  <div>
+    <div>
+    </div>
+      <div>
+        <header>
+        <h1>The Psychic Game</h1>
+        </header>
+        <div>
+          <h3>Guess what letter I'm thinking of...</h3>
+        </div>
+        <div id="game">
+          <ul>
+            <li><p id="wins">Wins: </p></li>
+            <li><p id="losses">Losses: </p></li>
+            <li><p id="guessLeft">Guesses Left: </p></li>
+            <li><p id="let">Your Guesses so far: </p></li>
+          </ul>  
+        </div>
+      </div>
+  </div> 
+    <script>
+
+var computerChoices = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+var wins = 0;
+var losses = 0;
+var guesses = 9;
+var remainingGuesses = 9;
+var guessedLetters = [];
+//sets all the initial variables
+
+var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+
+var newGuessesLeft = function() {
+  document.querySelector('#guessLeft').innerHTML = "Guesses left: " + remainingGuesses;
+};
+//document.querySelector = Get the first element in the document with class="example": ... would've been to go over in class
+//ensures the remaining guesses remains up to date
+
+var newLetterToGuess = function() {
+  this.letterToGuess = this.computerChoices[Math.floor(Math.random() * this.computerChoices.length)];
+};
+//up. refreshes the letter to be guessing
+
+var newGuessesSoFar = function() {
+  document.querySelector('#let').innerHTML = "Your Guesses so far: " + guessedLetters.join(', ');
+};
+//ensures that the list of guessedLetters remains up to date
+
+var reset = function() {   //resets the entire game but doesn't mess withs win/loss count
+  totalGuesses = 9;
+  remainingGuesses = 9;
+  guessedLetters = [];
+
+  newLetterToGuess();
+  newGuessesLeft();
+  newGuessesSoFar();
+}
+
+
+document.onkeyup = function(event) {
+    remainingGuesses--;
+    var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+    //captures user input
+
+    guessedLetters.push(userGuess);
+    newGuessesLeft();
+    newGuessesSoFar();
+    //updates guess tracking when a key press trigures the function
+
+          if (remainingGuesses > 0){
+              if (userGuess == letterToGuess){
+                  wins++;
+                  document.querySelector('#wins').innerHTML = "Wins: " + wins;
+                  alert("You're a psychic");
+                  reset();
+              }
+          } else if(remainingGuesses == 0){
+              losses++;
+              document.querySelector('#losses').innerHTML = "Losses: " + losses;
+              alert("You're a fake");
+              reset();
+          }
+};
+    </script>
+</body>
+
+</html>
